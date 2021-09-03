@@ -5,8 +5,8 @@ const canvas = document.getElementById("canvas1");
 
 const ctx = canvas.getContext("2d"); //name change push
 
-canvas.width = 600;
-canvas.height = 600;
+canvas.width = 500;
+canvas.height = 500;
 
 const screenW = window.innerWidth;
 const screenH = window.innerHeight;
