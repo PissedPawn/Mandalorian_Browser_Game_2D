@@ -3,7 +3,7 @@ import Bullet from "./Bullet.js";
 
 const canvas = document.getElementById("canvas1");
 
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d"); //name change push
 
 canvas.width = 600;
 canvas.height = 600;
