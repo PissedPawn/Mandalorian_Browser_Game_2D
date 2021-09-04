@@ -16,19 +16,19 @@ let mouseY;
 
 const keys = [];
 
-const player = new Player();
+let player = new Player();
 
 const playerSprite = new Image();
 const bulletSprite = new Image();
-let bullet;
+
+const bullets = [];
 
 function getMousePos(event) {
   mouseX = event.clientX - (screenW - canvas.width) / 2;
-  console.log(mouseX);
-
   mouseY = event.clientY - (screenH - canvas.height) / 2;
-  bullet = new Bullet(player);
-  //player.moving = true;
+  let bullet = new Bullet(player);
+
+  bullets.push(bullet);
 }
 
 document.addEventListener("click", getMousePos);
@@ -68,10 +68,15 @@ function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
     player.draw(ctx, playerSprite);
-    bullet.draw(ctx, bulletSprite);
-    player.movePlayer(keys);
-    bullet.moveBullet(mouseX, mouseY);
+    bullets.forEach((bullet) => {
+      if (bullet.delete === false) {
+        bullet.moveBullet(mouseX, mouseY);
+        bullet.draw(ctx, bulletSprite);
+      }
+     
+    });
 
+    player.movePlayer(keys);
     //player.moveToMousePos(mouseX, mouseY);
     player.handlePlayerFrame();
   }
