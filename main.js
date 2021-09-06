@@ -1,55 +1,30 @@
 import Player from "./Player.js";
 import Bullet from "./Bullet.js";
-
-const canvas = document.getElementById("canvas1");
-
-const ctx = canvas.getContext("2d"); //name change push
-
-canvas.width = 500;
-canvas.height = 500;
-
-const screenW = window.innerWidth;
-const screenH = window.innerHeight;
-
-let mouseX;
-let mouseY;
-
-const keys = [];
-
-let player = new Player();
-
-const playerSprite = new Image();
-const bulletSprite = new Image();
-
+import Game from "./game.js";
+import GameLoop from "./gameLoop.js";
+// CONSTANT ARRAYS
 const bullets = [];
+const keys = [];
+// INSTANCES
+let game = new Game("canvas1", 500, 500, "bg.jpg");
+let gameLoop = new GameLoop(30);
+let player = new Player("mandalorian2.png");
 
-function getMousePos(event) {
-  mouseX = event.clientX - (screenW - canvas.width) / 2;
-  mouseY = event.clientY - (screenH - canvas.height) / 2;
-  let bullet = new Bullet(player);
+//GETTING INPUTS
+game.getAllInputs(keys);
+player.stopMove();
 
-  bullets.push(bullet);
-}
+//PUTTING VALUES INSIDE VARIABLES SO IT IS EASIER TO CODE
+const ctx = game.ctx;
 
-document.addEventListener("click", getMousePos);
+let mouseX = game.mouseX;
+let mouseY = game.mouseY;
 
-playerSprite.src = "mandalorian2.png";
-bulletSprite.src = "laser.png";
+let fpsInterval, startTime, now, then, elapsed;
 
-const background = new Image();
-background.src = "bg.jpg";
+//gameLoop.startAnimating(game.drawGameScreen());
 
-window.addEventListener("keydown", function (e) {
-  keys[e.key] = true;
-  player.moving = true;
-});
-
-window.addEventListener("keyup", function (e) {
-  delete keys[e.key];
-  player.moving = false;
-});
-
-let fps, fpsInterval, startTime, now, then, elapsed;
+//FPS LOOP
 
 function startAnimating(fps) {
   fpsInterval = 1000 / fps;
@@ -65,15 +40,13 @@ function animate() {
 
   if (elapsed > fpsInterval) {
     then = now - (elapsed % fpsInterval);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    player.draw(ctx, playerSprite);
+    game.drawGameScreen();
+    player.draw(ctx);
     bullets.forEach((bullet) => {
       if (bullet.delete === false) {
         bullet.moveBullet(mouseX, mouseY);
-        bullet.draw(ctx, bulletSprite);
+        bullet.draw(ctx);
       }
-     
     });
 
     player.movePlayer(keys);

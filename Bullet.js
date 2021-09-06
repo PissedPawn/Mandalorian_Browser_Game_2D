@@ -1,5 +1,5 @@
 export default class Bullet {
-  constructor(player) {
+  constructor(player, image) {
     (this.startingX = player.x), // this is to keep track of each bullet starting position
       (this.startingY = player.y),
       (this.x = player.x),
@@ -13,7 +13,9 @@ export default class Bullet {
       (this.bulletMoveRatioY = 1),
       (this.delete = false),
       (this.index = 0),
-      (this.shouldMove = true);
+      (this.shouldMove = true),
+      (this.bulletSprite = new Image()),
+      (this.bulletSprite.src = image);
   }
   clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -81,10 +83,9 @@ export default class Bullet {
     console.log("BMR Y: " + this.bulletMoveRatioY);
     console.log("X Diff: " + (this.x - mouseX));
     console.log("Y Diff: " + (this.y - mouseY));
-    
   }
 
-  draw(ctx, bulletSprite) {
-    ctx.drawImage(bulletSprite, this.x, this.y, this.width, this.height);
+  draw(ctx) {
+    ctx.drawImage(this.bulletSprite, this.x, this.y, this.width, this.height);
   }
 }

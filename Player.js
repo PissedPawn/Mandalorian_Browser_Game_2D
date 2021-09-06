@@ -1,5 +1,5 @@
 export default class Player {
-  constructor() {
+  constructor(image) {
     (this.x = 300),
       (this.y = 300),
       (this.width = 32),
@@ -7,7 +7,9 @@ export default class Player {
       (this.frameX = 0),
       (this.frameY = 0),
       (this.speed = 10),
-      (this.moving = false);
+      (this.moving = false),
+      (this.playerSprite = new Image()),
+      (this.playerSprite.src = image);
   }
 
   movePlayer(keys) {
@@ -33,6 +35,13 @@ export default class Player {
       this.frameY = 2;
       this.moving = true;
     }
+  }
+
+  stopMove() {
+    let that = this;
+    document.addEventListener("keyup", function (e) {
+      that.moving = false;
+    });
   }
 
   moveToMousePos(mouseX, mouseY) {
@@ -96,9 +105,9 @@ export default class Player {
     else this.frameX = 0;
   }
 
-  draw(ctx, playerSprite) {
+  draw(ctx) {
     ctx.drawImage(
-      playerSprite,
+      this.playerSprite,
       this.width * this.frameX,
       this.height * this.frameY,
       this.width,
