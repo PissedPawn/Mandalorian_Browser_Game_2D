@@ -16,15 +16,24 @@ export default class Bullet {
       (this.shouldMove = true),
       (this.bulletSprite = new Image()),
       (this.bulletSprite.src = image);
+    (this.prevMouseX = 0), (this.prevMouseY = 0);
+    (this.moveDestX = 0), (this.moveDestY = 0);
+    this.moved = false;
   }
+
   clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
   moveBullet(mouseX, mouseY) {
+    if (!this.moved) {
+      this.moveDestX = mouseX;
+      this.moveDestY = mouseY;
+      this.moved = true;
+    }
     /*
     Get the distance of how much along each coordinate the bullet will move
     */
-    this.distX = Math.abs(mouseX - this.startingX);
-    this.distY = Math.abs(mouseY - this.startingY);
+    this.distX = Math.abs(this.moveDestX - this.startingX);
+    this.distY = Math.abs(this.moveDestY - this.startingY);
 
     // console.log("X : " + this.distX);
     // console.log("Y : " + this.distY);
@@ -49,40 +58,40 @@ export default class Bullet {
     }
 
     // actual movement code
-    if (this.x > mouseX) {
+    if (this.x > this.moveDestX) {
       this.x -= this.speed * this.bulletMoveRatioX;
     }
 
-    if (this.x < mouseX) {
+    if (this.x < this.moveDestX) {
       this.x += this.speed * this.bulletMoveRatioX;
     }
 
-    if (this.y > mouseY) {
+    if (this.y > this.moveDestY) {
       this.y -= this.speed * this.bulletMoveRatioY;
     }
 
-    if (this.y < mouseY) {
+    if (this.y < this.moveDestY) {
       this.y += this.speed * this.bulletMoveRatioY;
     }
 
     if (
-      this.x > mouseX - 20 &&
-      this.x < mouseX + 20 &&
-      this.y > mouseY - 20 &&
-      this.y < mouseY + 20
+      this.x > this.moveDestX - 20 &&
+      this.x < this.moveDestX + 20 &&
+      this.y > this.moveDestY - 20 &&
+      this.y < this.moveDestY + 20
     ) {
       this.delete = true;
     }
     console.log(
-      this.x > mouseX - 20 &&
-        this.x < mouseX + 20 &&
-        this.y > mouseY - 20 &&
-        this.y < mouseY + 20
+      this.x > this.moveDestX - 20 &&
+        this.x < this.moveDestX + 20 &&
+        this.y > this.moveDestY - 20 &&
+        this.y < this.moveDestY + 20
     );
     console.log("BMR X: " + this.bulletMoveRatioX);
     console.log("BMR Y: " + this.bulletMoveRatioY);
-    console.log("X Diff: " + (this.x - mouseX));
-    console.log("Y Diff: " + (this.y - mouseY));
+    console.log("X Diff: " + (this.x - this.moveDestX));
+    console.log("Y Diff: " + (this.y - this.moveDestY));
   }
 
   draw(ctx) {

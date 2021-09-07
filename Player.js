@@ -118,4 +118,8 @@ export default class Player {
       this.height
     );
   }
+
+  jump() {
+    //to be made
+  }
 }
