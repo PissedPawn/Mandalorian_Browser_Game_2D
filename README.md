@@ -2,5 +2,6 @@
 
 Frame by frame sprite animating with Vanilla JavaScript, HTML and some CSS
 
-![image](https://user-images.githubusercontent.com/57664956/132050278-75db8260-6cd6-4345-ba1b-361396975830.png)
+![image](https://user-images.githubusercontent.com/57664956/132371270-f2a7e08b-e8c3-4508-bd9c-88e73ab3078c.png)
+
 
