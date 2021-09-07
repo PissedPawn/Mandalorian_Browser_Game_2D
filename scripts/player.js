@@ -1,17 +1,9 @@
-export default class Player {
-  constructor(image) {
-    (this.x = 300),
-      (this.y = 300),
-      (this.width = 32),
-      (this.height = 48),
-      (this.frameX = 0),
-      (this.frameY = 0),
-      (this.speed = 10),
-      (this.moving = false),
-      (this.playerSprite = new Image()),
-      (this.playerSprite.src = image);
-  }
+import Character from "./character.js";
 
+export default class Player extends Character {
+  constructor(image) {
+    super(image);
+  }
   movePlayer(keys) {
     if ((keys["ArrowUp"] || keys["w"]) && this.y > 150) {
       this.y -= this.speed;
@@ -35,6 +27,8 @@ export default class Player {
       this.frameY = 2;
       this.moving = true;
     }
+
+    this.handleCharacterFrame();
   }
 
   stopMove() {
@@ -98,25 +92,6 @@ export default class Player {
         this.y += this.speed;
       }
     }
-  }
-
-  handlePlayerFrame() {
-    if (this.frameX < 3 && this.moving) this.frameX++;
-    else this.frameX = 0;
-  }
-
-  draw(ctx) {
-    ctx.drawImage(
-      this.playerSprite,
-      this.width * this.frameX,
-      this.height * this.frameY,
-      this.width,
-      this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
   }
 
   jump() {
