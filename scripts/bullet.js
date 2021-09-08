@@ -1,9 +1,10 @@
+import Vector2 from "./vector2.js";
+
 export default class Bullet {
   constructor(player, image) {
-    (this.startingX = player.x), // this is to keep track of each bullet starting position
-      (this.startingY = player.y),
-      (this.x = player.x),
-      (this.y = player.y),
+    (this.startingX = player.pos.x), // this is to keep track of each bullet starting position
+      (this.startingY = player.pos.y),
+      (this.pos = new Vector2(player.pos.x, player.pos.y)),
       (this.width = 10),
       (this.height = 10),
       (this.speed = 5),
@@ -58,43 +59,49 @@ export default class Bullet {
     }
 
     // actual movement code
-    if (this.x > this.moveDestX) {
-      this.x -= this.speed * this.bulletMoveRatioX;
+    if (this.pos.x > this.moveDestX) {
+      this.pos.x -= this.speed * this.bulletMoveRatioX;
     }
 
-    if (this.x < this.moveDestX) {
-      this.x += this.speed * this.bulletMoveRatioX;
+    if (this.pos.x < this.moveDestX) {
+      this.pos.x += this.speed * this.bulletMoveRatioX;
     }
 
-    if (this.y > this.moveDestY) {
-      this.y -= this.speed * this.bulletMoveRatioY;
+    if (this.pos.y > this.moveDestY) {
+      this.pos.y -= this.speed * this.bulletMoveRatioY;
     }
 
-    if (this.y < this.moveDestY) {
-      this.y += this.speed * this.bulletMoveRatioY;
+    if (this.pos.y < this.moveDestY) {
+      this.pos.y += this.speed * this.bulletMoveRatioY;
     }
 
     if (
-      this.x > this.moveDestX - 20 &&
-      this.x < this.moveDestX + 20 &&
-      this.y > this.moveDestY - 20 &&
-      this.y < this.moveDestY + 20
+      this.pos.x > this.moveDestX - 20 &&
+      this.pos.x < this.moveDestX + 20 &&
+      this.pos.y > this.moveDestY - 20 &&
+      this.pos.y < this.moveDestY + 20
     ) {
       this.delete = true;
     }
-    console.log(
-      this.x > this.moveDestX - 20 &&
-        this.x < this.moveDestX + 20 &&
-        this.y > this.moveDestY - 20 &&
-        this.y < this.moveDestY + 20
-    );
-    console.log("BMR X: " + this.bulletMoveRatioX);
-    console.log("BMR Y: " + this.bulletMoveRatioY);
-    console.log("X Diff: " + (this.x - this.moveDestX));
-    console.log("Y Diff: " + (this.y - this.moveDestY));
+    // console.log(
+    //   this.pos.x > this.moveDestX - 20 &&
+    //     this.pos.x < this.moveDestX + 20 &&
+    //     this.pos.y > this.moveDestY - 20 &&
+    //     this.pos.y < this.moveDestY + 20
+    // );
+    // console.log("BMR X: " + this.bulletMoveRatioX);
+    // console.log("BMR Y: " + this.bulletMoveRatioY);
+    // console.log("X Diff: " + (this.pos.x - this.moveDestX));
+    // console.log("Y Diff: " + (this.pos.y - this.moveDestY));
   }
 
   draw(ctx) {
-    ctx.drawImage(this.bulletSprite, this.x, this.y, this.width, this.height);
+    ctx.drawImage(
+      this.bulletSprite,
+      this.pos.x,
+      this.pos.y,
+      this.width,
+      this.height
+    );
   }
 }

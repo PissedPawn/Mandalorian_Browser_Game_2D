@@ -4,26 +4,30 @@ import Game from "./game.js";
 import GameLoop from "./gameLoop.js";
 import BulletManager from "./bulletManager.js";
 import Enemy from "./enemy.js";
-// CONSTANT ARRAYS
+import Vector2 from "./vector2.js";
+
+//#region Constants
 const keys = [];
 const enemies = [];
 const sprites = "/Sprites/";
-// INSTANCES
+//#endregion
+
+//#region INSTANCES
 let game = new Game("canvas1", 500, 500, sprites + "/bg.jpg");
-let gameLoop = new GameLoop(30);
-let player = new Player(sprites + "mandalorian2.png");
-let enemy1 = new Enemy(sprites + "stormtrooper.png", 1, 0, 230);
-let enemy2 = new Enemy(sprites + "enemy.png", 0.6, 500, 230);
-let enemy3 = new Enemy(sprites + "sith.png", 2, 0, 500);
-let enemy4 = new Enemy(sprites + "enemy.png", 0.3, 500, 235);
-let enemy5 = new Enemy(sprites + "darthvader.png", 1, 500, 300);
+
+let player = new Player(sprites + "mandalorian2.png", new Vector2(300, 150));
+let enemy1 = new Enemy(sprites + "stormtrooper.png", 1, new Vector2(500, 200));
+let enemy2 = new Enemy(sprites + "enemy.png", 0.6, new Vector2(500, 230));
+let enemy3 = new Enemy(sprites + "sith.png", 2, new Vector2(0, 500));
+let enemy4 = new Enemy(sprites + "enemy.png", 0.8, new Vector2(500, 230));
 
 let bulletManager = new BulletManager();
-enemies.push(enemy1);
-enemies.push(enemy2);
-enemies.push(enemy3);
+//#endregion
+
+// enemies.push(enemy1);
+// enemies.push(enemy2);
+// enemies.push(enemy3);
 enemies.push(enemy4);
-enemies.push(enemy5);
 
 //GETTING INPUTS
 game.getAllInputs(keys);
@@ -31,15 +35,12 @@ player.stopMove();
 
 function shootBullet(event) {
   game.getMousePos(event);
-  bulletManager.shootBullet(player, sprites+"laser.png");
+  bulletManager.shootBullet(player, sprites + "laser.png");
 }
 
 document.addEventListener("click", shootBullet);
 //PUTTING VALUES INSIDE VARIABLES SO IT IS EASIER TO CODE
 const ctx = game.ctx;
-
-let mouseX = game.mouseX;
-let mouseY = game.mouseY;
 
 let fpsInterval, startTime, now, then, elapsed;
 
@@ -66,7 +67,7 @@ function animate() {
     enemies.forEach((enemy) => {
       enemy.draw(ctx);
 
-      enemy.moveEnemy(player.x, player.y);
+      enemy.moveEnemy(player.pos.x, player.pos.y);
     });
 
     bulletManager.bullets.length !== 0
@@ -76,11 +77,9 @@ function animate() {
             bullet.draw(ctx);
           }
         })
-      : console.log("empty");
+      : null;
 
     player.movePlayer(keys);
-
-    //player.moveToMousePos(mouseX, mouseY);
   }
 }
 

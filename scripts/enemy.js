@@ -1,12 +1,11 @@
 import Character from "./character.js";
 
 export default class Enemy extends Character {
-  constructor(image, speed, x, y) {
+  constructor(image, speed, pos) {
     super(image),
       (this.distX = 0),
-      (this.x = x),
+      (this.pos = pos),
       (this.speed = speed),
-      (this.y = y),
       (this.moveDestX = 0),
       (this.startingX = 0),
       (this.distY = 0),
@@ -17,7 +16,6 @@ export default class Enemy extends Character {
   }
   clamp = (num, min, max) => Math.min(Math.max(num, min), max);
   moveEnemy(targetX, targetY) {
-      
     this.moveDestX = targetX;
     this.moveDestY = targetY;
     this.distX = Math.abs(this.moveDestX - this.startingX);
@@ -47,30 +45,32 @@ export default class Enemy extends Character {
 
     // actual movement code
 
-    if (this.x > this.moveDestX) {
-      this.x -= this.speed * this.enemyMoveRatioX;
+    if (this.pos.x > this.moveDestX) {
+      this.pos.x -= this.speed * this.enemyMoveRatioX; 
 
       this.moving = true;
     }
 
-    if (this.x < this.moveDestX) {
-      this.x += this.speed * this.enemyMoveRatioX;
+    if (this.pos.x < this.moveDestX) {
+      this.pos.x += this.speed * this.enemyMoveRatioX;
 
       this.moving = true;
     }
 
-    if (this.y > this.moveDestY) {
-      this.y -= this.speed * this.enemyMoveRatioY;
+    if (this.pos.y > this.moveDestY) {
+      this.pos.y -= this.speed * this.enemyMoveRatioY;
 
       this.moving = true;
     }
 
-    if (this.y < this.moveDestY) {
-      this.y += this.speed * this.enemyMoveRatioY;
+    if (this.pos.y < this.moveDestY) {
+      this.pos.y += this.speed * this.enemyMoveRatioY;
 
       this.moving = true;
     }
 
     this.handleCharacterFrame();
   }
+
+  shootAtTarget(target) {}
 }
